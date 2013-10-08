@@ -1,13 +1,77 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}MyBooks{% endblock %}</title>
+    <meta name="description" content="Default Description" />
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}" media="all" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/widgets.css') }}" media="all" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui-1.10.3.custom.min.css') }}" media="all" />
+    {% endblock %}
+    {% block javascripts %}
+        <!-- <script type="text/javascript" src="{{ asset('js/prototype/prototype.js') }}"></script> -->
+        <script type="text/javascript" src="{{ asset('js/jquery-1.9.1.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/general.js') }}"></script>
+    {% endblock %}
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="page">
+            <div class="header-container">
+                <div class="header">
+                    <div class="quick-access">
+                        {% block search %}
+                            <form id="search_mini_form" action="product_list.html" method="get">
+                                <div class="form-search">
+                                    <label for="search">Search:</label>
+                                    <input id="search" type="text" name="q" value="" class="input-text" maxlength="128" />
+                                    <button type="submit" title="Search" class="button"><span><span>Search</span></span></button>
+                                </div>
+                            </form>
+                        {% endblock %}
+                            <p class="welcome-msg">{% block welcome %}
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    Welcome {{ app.user.username }}!
+                                {% else %}
+                                    Welcome!
+                                {% endif %}{% endblock %}</p>
+                        {% block navigation %}
+                            <ul class="links">
+                                <li class="first" ><a href="dashboard.html" title="My Account" >My Account</a></li>
+                                <li ><a href="cart.html" title="My Cart" class="top-link-cart">My Cart</a></li>
+                                <li class="last" ><a href="checkout.html" title="Checkout" class="top-link-checkout">Checkout</a></li>
+                            </ul>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            {% block categories %}
+            
+            {% endblock %}
+            {% block body %}
+            
+            {% endblock %}
+            <div class="footer-container">
+                <div class="footer">
+                    {% block footer %}
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Customer Service</a></li>
+                        <li class="last privacy"><a href="#">Privacy Policy</a></li>
+                    </ul>
+                    <ul class="links">
+                        <li class="first" ><a href="#" title="Site Map" >Site Map</a></li>
+                        <li ><a href="#" title="Search Terms" >Search Terms</a></li>
+                        <li ><a href="#" title="Orders and Returns" >Orders and Returns</a></li>
+                        <li class=" last" ><a href="#" title="Contact Us" >Contact Us</a></li>
+                    </ul>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

@@ -1,0 +1,14 @@
+main_main_homepage:
+    pattern:  /
+    defaults: { _controller: MainMainBundle:Page:index }
+main_main_login:
+    pattern: /login
+    defaults: {_controller: MainMainBundle:Security:login}
+main_main_login_check:
+    pattern: /login_check
+main_main_products:
+    pattern:  /products/{category}/{page}
+    defaults: { _controller: MainMainBundle:Products:prods, category: 1, page: 1 }
+main_main_products_list:
+    pattern:  /products_list/{category}/{page}
+    defaults: { _controller: MainMainBundle:Products:list, category: 1, page:1 }

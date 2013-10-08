@@ -1,0 +1,160 @@
+{% extends 'MainMainBundle::layout.html.twig' %}
+{% block body %}
+<div class="main-container col3-layout">
+    <div class="main">
+        <div class="breadcrumbs">
+            <ul>
+                <li class="home">
+                    <a href="{{ path('main_main_homepage') }}" title="Go to Home Page">Home</a>
+                    <span>/ </span>
+                </li>
+                <li class="category35">
+                    <strong>{{prods[0].category.label}}</strong>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-wrapper">
+            <div class="col-main">
+                <div class="page-title category-title">
+                    <h1>{{prods[0].category.label}}</h1>
+                </div>
+                <div class="category-products">
+                    <div class="toolbar">
+                        <div class="pager">
+                            <p class="amount">
+                                <strong>{{ count }} Item(s)</strong>
+                            </p>
+
+                            <div class="pages">
+                                <strong>Page:</strong>
+                                <ol>
+                                    {% for key in 1..(count / 9)|ceil %}
+                                        {% if app.request.get('page')==key %}
+                                            <li class="current">{{ key }}</li>
+                                        {% else %}
+                                            <li><a href="{{ path('main_main_products', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if app.request.get('page')!=(count / 9)|ceil %}
+                                    <li>
+                                        <a class="next i-next" href="{{ path('main_main_products', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                                            <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="sorter">
+                            <div class="sort-by">
+                                <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category': app.request.get('category') }) }}" class="sort_form">
+                                    <label>Sort By</label>
+                                    <select name="sort_by" class="sort_by">
+                                        <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
+                                        <option value="price" {% if app.session.get('filters').sort_by == 'price' %}selected="selected"{% endif %}>Price</option>
+                                    </select>
+                                    &nbsp;
+                                    <label>Direction</label>
+                                    <select name="direction" class="direction">
+                                        <option value="asc" {% if app.session.get('filters').direction == 'ASC' %}selected="selected"{% endif %}>Asc</option>
+                                        <option value="desc"{% if app.session.get('filters').sort_by == 'DESC' %}selected="selected"{% endif %}>Desc</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list_wrapper">
+                        {% render controller('MainMainBundle:Products:list',{'page': app.request.get('page'), 'category': app.request.get('category')}) %}
+                    </div>
+                    <div class="toolbar-bottom">
+                        <div class="toolbar">
+                            <div class="pager">
+                                <p class="amount">
+                                    <strong>{{ count }} Item(s)</strong>
+                                </p>
+
+                                <div class="pages">
+                                    <strong>Page:</strong>
+                                    <ol>
+                                    {% for key in 1..(count / 9)|ceil %}
+                                        {% if app.request.get('page')==key %}
+                                            <li class="current">{{ key }}</li>
+                                        {% else %}
+                                            <li><a href="{{ path('main_main_products', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if app.request.get('page')!=(count / 9)|ceil %}
+                                    <li>
+                                        <a class="next i-next" href="{{ path('main_main_products', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                                            <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="sorter">
+                                <div class="sort-by">
+                                    <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category':app.request.get('category') }) }}" class="sort_form">
+                                        <label>Sort By</label>
+                                        <select name="sort_by" class="sort_by">
+                                            <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
+                                            <option value="price" {% if app.session.get('filters').sort_by == 'price' %}selected="selected"{% endif %}>Price</option>
+                                        </select>
+                                        &nbsp;
+                                        <label>Direction</label>
+                                        <select name="direction" class="direction">
+                                            <option value="asc" {% if app.session.get('filters').direction == 'ASC' %}selected="selected"{% endif %}>Asc</option>
+                                            <option value="desc"{% if app.session.get('filters').sort_by == 'DESC' %}selected="selected"{% endif %}>Desc</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-left sidebar">
+                <div class="block block-layered-nav">
+                    <div class="block-title">
+                        <strong><span>Shop By</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <div class="currently">
+                            <p class="block-subtitle">Currently Shopping by:</p>
+                            <ol>
+                                <li>
+                                    <span class="label">Price:</span> <span class="value">0,00 US$ - 49,99 US$</span><!-- <a class="btn-remove" href="#" title="Remove This Item">Remove This Item</a> -->
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="actions"><a href="#">Clear All</a></div>
+                        <p class="block-subtitle">Shopping Options</p>
+                        <dl id="narrow-by-list">
+                            <dt>Price</dt>
+                            <dd>
+                                <ol>
+                                    <li><a href="#"><span class="price">0,00 US$</span> - <span class="price">49,99 US$</span></a></li>
+                                    <li><a href="#"><span class="price">50,00 US$</span> - <span class="price">99,99 US$</span></a></li>
+                                    <li><a href="#"><span class="price">100,00 US$</span> and above</a></li>
+                                </ol>
+                            </dd>
+                            <dt>Stock</dt>
+                            <dd>
+                                <ol>
+                                    <li><a href="#">Available</a></li>
+                                    <li><a href="#">Soon</a></li>
+                                </ol>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- change to render here when controller ready -->
+         {% include 'MainMainBundle::rightsidebar.html.twig' %}
+    </div>
+</div>
+{% endblock %}

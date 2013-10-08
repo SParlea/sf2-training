@@ -1,0 +1,6 @@
+parameters:
+    # Blogger contact email address
+    main_main.prods.prods_limit: 9
+twig:
+    globals:
+        prods_limit: %main_main.prods.prods_limit%
