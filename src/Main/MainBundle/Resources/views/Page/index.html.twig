@@ -11,37 +11,37 @@
 	                    <tbody>
 	                    	{{ app.session.get('name2') }}
 	                    	{% for prod in prods %}
-	                    	{% if loop.index0==0 %}
-	                    		{% set class='even' %}
-	                    	{% endif %}
-	                    	{% if loop.index0 % 2==0 %}
-	                        <tr class="{{ class }}">
-	                            <td>
-	                                <a href="#">
-	                                    <img width="95" alt="" src="{{ asset('images/nusantara.gif') }}" class="product-img">
-	                                </a>
-	                                <div class="product-description">
-	                                    <p><a href="#">{{ prod.title }}</a></p>
-	                                    <p>See all <a href="#">{{ prod.category.label }}</a></p>
-	                                </div>
-	                            </td>
-	                            {% if class=='even' %}
-	                            	{% set class='odd' %}
-	                            {% else %}
-	                            	{% set class='even'%}
-	                            {% endif %}
-	                        {% else %}
-	                            <td>
-	                                <a href="#">
-	                                    <img width="95" alt="" src="{{ asset('images/nusantara.gif') }}" class="product-img">
-	                                </a>
-	                                <div class="product-description">
-	                                    <p><a href="#">{{ prod.title }}</a></p>
-	                                    <p>See all <a href="#">{{ prod.category.label }}</a></p>
-	                                </div>
-	                            </td>
-	                        </tr>
-	                        {% endif %}
+		                    	{% if loop.index0==0 %}
+		                    		{% set class='even' %}
+		                    	{% endif %}
+		                    	{% if loop.index0 % 2==0 %}
+		                        <tr class="{{ class }}">
+		                            <td>
+		                                <a href="#">
+		                                    <img width="95" alt="" src="{{ asset('images/nusantara.gif') }}" class="product-img">
+		                                </a>
+		                                <div class="product-description">
+		                                    <p><a href="#">{{ prod.title }}</a></p>
+		                                    <p>See all <a href="#">{{ prod.category.label }}</a></p>
+		                                </div>
+		                            </td>
+		                            {% if class=='even' %}
+		                            	{% set class='odd' %}
+		                            {% else %}
+		                            	{% set class='even'%}
+		                            {% endif %}
+		                        {% else %}
+		                            <td>
+		                                <a href="#">
+		                                    <img width="95" alt="" src="{{ asset('images/nusantara.gif') }}" class="product-img">
+		                                </a>
+		                                <div class="product-description">
+		                                    <p><a href="#">{{ prod.title }}</a></p>
+		                                    <p>See all <a href="#">{{ prod.category.label }}</a></p>
+		                                </div>
+		                            </td>
+		                        </tr>
+		                        {% endif %}
 	                        {% endfor %}
 	                    </tbody>
 	                </table>

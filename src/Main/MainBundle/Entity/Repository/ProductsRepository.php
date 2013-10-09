@@ -31,8 +31,22 @@ class ProductsRepository extends EntityRepository
 		}
 		if(is_null($category)===false)
 		{
-			$qb->andWhere('p.category = :category_id')
+			$qb->Where('p.category = :category_id')
 				->setParameter('category_id', $category);
+		}
+		if(is_null($filter)===false)
+		{
+			$prices = explode(',', $filter['price']);
+			if($prices[1]!='NaN')
+			{
+				$qb->andWhere($qb->expr()->between('p.price',':min_val', ':max_val'))
+					->setParameter('min_val',$prices[0])
+					->setParameter('max_val',$prices[1]);
+			}else
+			{
+				$qb->andWhere('p.price >= :min_val')
+					->setParameter('min_val',$prices[0]);
+			}
 		}
 		if(is_null($page)===false)
 		{
@@ -52,8 +66,22 @@ class ProductsRepository extends EntityRepository
 				   ->addOrderBy('p.id','DESC');
 		if(is_null($category)===false)
 		{
-			$qb->andWhere('p.category = :category_id')
+			$qb->Where('p.category = :category_id')
 				->setParameter('category_id', $category);
+		}
+		if(is_null($filter)===false)
+		{
+			$prices = explode(',', $filter['price']);
+			if($prices[1]!='NaN')
+			{
+				$qb->andWhere($qb->expr()->between('p.price',':min_val', ':max_val'))
+					->setParameter('min_val',$prices[0])
+					->setParameter('max_val',$prices[1]);
+			}else
+			{
+				$qb->andWhere('p.price >= :min_val')
+					->setParameter('min_val',$prices[0]);
+			}
 		}
 		return $qb->getQuery()
                   ->getResult();

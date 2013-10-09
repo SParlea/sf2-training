@@ -20,100 +20,11 @@
                     <h1>{{prods[0].category.label}}</h1>
                 </div>
                 <div class="category-products">
-                    <div class="toolbar">
-                        <div class="pager">
-                            <p class="amount">
-                                <strong>{{ count }} Item(s)</strong>
-                            </p>
-
-                            <div class="pages">
-                                <strong>Page:</strong>
-                                <ol>
-                                    {% for key in 1..(count / 9)|ceil %}
-                                        {% if app.request.get('page')==key %}
-                                            <li class="current">{{ key }}</li>
-                                        {% else %}
-                                            <li><a href="{{ path('main_main_products', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if app.request.get('page')!=(count / 9)|ceil %}
-                                    <li>
-                                        <a class="next i-next" href="{{ path('main_main_products', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
-                                            <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                </ol>
-                            </div>
-                        </div>
-                        <div class="sorter">
-                            <div class="sort-by">
-                                <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category': app.request.get('category') }) }}" class="sort_form">
-                                    <label>Sort By</label>
-                                    <select name="sort_by" class="sort_by">
-                                        <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
-                                        <option value="price" {% if app.session.get('filters').sort_by == 'price' %}selected="selected"{% endif %}>Price</option>
-                                    </select>
-                                    &nbsp;
-                                    <label>Direction</label>
-                                    <select name="direction" class="direction">
-                                        <option value="asc" {% if app.session.get('filters').direction == 'ASC' %}selected="selected"{% endif %}>Asc</option>
-                                        <option value="desc"{% if app.session.get('filters').sort_by == 'DESC' %}selected="selected"{% endif %}>Desc</option>
-                                    </select>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="list_wrapper">
-                        {% render controller('MainMainBundle:Products:list',{'page': app.request.get('page'), 'category': app.request.get('category')}) %}
+                        {% render controller('MainMainBundle:Products:list',{'page': app.request.get('page'), 'category': app.request.get('category') }) %}
                     </div>
-                    <div class="toolbar-bottom">
-                        <div class="toolbar">
-                            <div class="pager">
-                                <p class="amount">
-                                    <strong>{{ count }} Item(s)</strong>
-                                </p>
-
-                                <div class="pages">
-                                    <strong>Page:</strong>
-                                    <ol>
-                                    {% for key in 1..(count / 9)|ceil %}
-                                        {% if app.request.get('page')==key %}
-                                            <li class="current">{{ key }}</li>
-                                        {% else %}
-                                            <li><a href="{{ path('main_main_products', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if app.request.get('page')!=(count / 9)|ceil %}
-                                    <li>
-                                        <a class="next i-next" href="{{ path('main_main_products', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
-                                            <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    </ol>
-                                </div>
-                            </div>
-
-                            <div class="sorter">
-                                <div class="sort-by">
-                                    <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category':app.request.get('category') }) }}" class="sort_form">
-                                        <label>Sort By</label>
-                                        <select name="sort_by" class="sort_by">
-                                            <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
-                                            <option value="price" {% if app.session.get('filters').sort_by == 'price' %}selected="selected"{% endif %}>Price</option>
-                                        </select>
-                                        &nbsp;
-                                        <label>Direction</label>
-                                        <select name="direction" class="direction">
-                                            <option value="asc" {% if app.session.get('filters').direction == 'ASC' %}selected="selected"{% endif %}>Asc</option>
-                                            <option value="desc"{% if app.session.get('filters').sort_by == 'DESC' %}selected="selected"{% endif %}>Desc</option>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
             <div class="col-left sidebar">
@@ -133,12 +44,17 @@
                         <div class="actions"><a href="#">Clear All</a></div>
                         <p class="block-subtitle">Shopping Options</p>
                         <dl id="narrow-by-list">
+                            <input type="hidden" name="filter_path" id="filter_path" value="{{ path('main_main_products_list', { 'category':app.request.get('category') }) }}">
                             <dt>Price</dt>
                             <dd>
                                 <ol>
-                                    <li><a href="#"><span class="price">0,00 US$</span> - <span class="price">49,99 US$</span></a></li>
-                                    <li><a href="#"><span class="price">50,00 US$</span> - <span class="price">99,99 US$</span></a></li>
-                                    <li><a href="#"><span class="price">100,00 US$</span> and above</a></li>
+                                    {% for step in steps %}
+                                        {% if loop.last!=true or step['only_one']==true%}
+                                            <li><a href="javascript:void(0)" class="filter_price"><span class="price"><span class="exact_val_min">{{ step['min'] }}</span> US$</span> - <span class="price"><span class="exact_val_max">{{ step['max'] }}</span> US$</span></a></li>
+                                        {% else %}
+                                            <li><a href="javascript:void(0)" class="filter_price"><span class="price"><span class="exact_val_min">{{ step['min'] }}</span>US$</span> <span class="exact_val_max"></span>and above</a></li>
+                                        {% endif %}
+                                    {% endfor %}
                                 </ol>
                             </dd>
                             <dt>Stock</dt>

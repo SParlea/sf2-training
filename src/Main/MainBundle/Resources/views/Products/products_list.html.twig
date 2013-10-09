@@ -1,9 +1,54 @@
-{% if prods|length < 3%}
+<script type="text/javascript" src="{{ asset('js/prod_list.js') }}"></script>
+<div class="toolbar">
+    <div class="pager">
+        <p class="amount">
+            <strong>{{ count }} Item(s)</strong>
+        </p>
+
+        <div class="pages">
+            <strong>Page:</strong>
+            <ol>
+                {% for key in 1..(count / 9)|ceil if count!=0 %}
+                    {% if app.request.get('page')==key %}
+                        <li class="current">{{ key }}</li>
+                    {% else %}
+                        <li><a class="page_link" href="{{ path('main_main_products_list', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if app.request.get('page')!=(count / 9)|ceil and count!=0 %}
+                <li>
+                    <a class="next i-next page_link" href="{{ path('main_main_products_list', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                        <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
+                    </a>
+                </li>
+                {% endif %}
+            </ol>
+        </div>
+    </div>
+    <div class="sorter">
+        <div class="sort-by">
+            <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category': app.request.get('category') }) }}" class="sort_form">
+                <label>Sort By</label>
+                <select name="sort_by" class="sort_by">
+                    <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
+                    <option value="price" {% if app.session.get('filters').sort_by == 'price' %}selected="selected"{% endif %}>Price</option>
+                </select>
+                &nbsp;
+                <label>Direction</label>
+                <select name="direction" class="direction">
+                    <option value="asc" {% if app.session.get('filters').direction == 'ASC' %}selected="selected"{% endif %}>Asc</option>
+                    <option value="desc"{% if app.session.get('filters').direction == 'DESC' %}selected="selected"{% endif %}>Desc</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+{% if prods|length <= 3%}
     {% set max_range=0 %}
 {% else %}
     {% set max_range=prods|length-1 %}
 {% endif %}
-{% for key in range(0,max_range,3) %}
+{% for key in range(0,max_range,3) if prods|length!=0 %}
 <ul class="products-grid">
     <li class="item first">
         <a href="product_detail.html" title="Nusantara Demo" class="product-image"><img src="{{ asset('images/nusantara.gif') }}" width="135" height="135" alt="Nusantara Demo" /></a>
@@ -67,4 +112,53 @@
     </li>
     {% endif %}
 </ul>
+{% else %}
+<div>No product in this search criteria</div>
 {% endfor %}
+ <div class="toolbar-bottom">
+    <div class="toolbar">
+        <div class="pager">
+            <p class="amount">
+                <strong>{{ count }} Item(s)</strong>
+            </p>
+
+            <div class="pages">
+                <strong>Page:</strong>
+                <ol>
+                {% for key in 1..(count / 9)|ceil if count!=0 %}
+                    {% if app.request.get('page')==key %}
+                        <li class="current">{{ key }}</li>
+                    {% else %}
+                        <li><a class="page_link" href="{{ path('main_main_products_list', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if app.request.get('page')!=(count / 9)|ceil and count!=0 %}
+                <li>
+                    <a class="next i-next page_link" href="{{ path('main_main_products_list', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                        <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
+                    </a>
+                </li>
+                {% endif %}
+                </ol>
+            </div>
+        </div>
+
+        <div class="sorter">
+            <div class="sort-by">
+                <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category':app.request.get('category') }) }}" class="sort_form">
+                    <label>Sort By</label>
+                    <select name="sort_by" class="sort_by">
+                        <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
+                        <option value="price" {% if app.session.get('filters').sort_by == 'price' %}selected="selected"{% endif %}>Price</option>
+                    </select>
+                    &nbsp;
+                    <label>Direction</label>
+                    <select name="direction" class="direction">
+                        <option value="asc" {% if app.session.get('filters').direction == 'ASC' %}selected="selected"{% endif %}>Asc</option>
+                        <option value="desc"{% if app.session.get('filters').direction == 'DESC' %}selected="selected"{% endif %}>Desc</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 parameters:
     # Blogger contact email address
     main_main.prods.prods_limit: 9
+    main_main.filter.percent_step: 30
 twig:
     globals:
         prods_limit: %main_main.prods.prods_limit%

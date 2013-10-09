@@ -2,7 +2,7 @@
     <ul id="nav">
         {% for categ in categs %}
         <li class="level0 nav-1 level-top first">
-            <a href="{{path('main_main_products',{ 'category': categ.id })}}" class="level-top" ><span>{{ categ.label }}</span></a>
+            <a href="{{path('main_main_products',{ 'category': categ.id  })}}" class="level-top" ><span>{{ categ.label }}</span></a>
         </li>
         {% endfor %}
     </ul>
