@@ -9,7 +9,11 @@
                     <span>/ </span>
                 </li>
                 <li class="category35">
-                    <strong>{{prods[0].category.label}}</strong>
+                    {% if is_search==true %}
+                        <strong>Search results for %{{ app.request.get('search') }}%</strong>
+                    {% else %}
+                        <strong>{{ category_name['label'] }}</strong>
+                    {% endif %}
                 </li>
             </ul>
         </div>
@@ -17,12 +21,20 @@
         <div class="col-wrapper">
             <div class="col-main">
                 <div class="page-title category-title">
-                    <h1>{{prods[0].category.label}}</h1>
+                    {% if is_search==true %}
+                        <h1>Search results for %{{ app.request.get('search') }}%</h1>
+                    {% else %}
+                        <h1>{{ category_name['label'] }}</h1>
+                    {% endif %}
                 </div>
                 <div class="category-products">
                     
                     <div class="list_wrapper">
-                        {% render controller('MainMainBundle:Products:list',{'page': app.request.get('page'), 'category': app.request.get('category') }) %}
+                        {% if is_search==true %}
+                            {% render controller('MainMainBundle:Products:searchList',{'page': app.request.get('page'), 'search': app.request.get('search') }) %}
+                        {% else %}
+                            {% render controller('MainMainBundle:Products:list',{'page': app.request.get('page'), 'category': app.request.get('category') }) %}
+                        {% endif %}
                     </div>
                    
                 </div>
@@ -35,21 +47,33 @@
                     <div class="block-content">
                         <div class="currently">
                             <p class="block-subtitle">Currently Shopping by:</p>
-                            <ol>
-                                <li>
-                                    <span class="label">Price:</span> <span class="value">0,00 US$ - 49,99 US$</span><!-- <a class="btn-remove" href="#" title="Remove This Item">Remove This Item</a> -->
-                                </li>
+                            <ol class="filter_list">
+                                {% if is_filter==true %}
+                                    <li class="price"><span class="label">Price:</span> <span class="value">{{ range_value }}</span></li>
+                                {% endif %}
                             </ol>
                         </div>
-                        <div class="actions"><a href="#">Clear All</a></div>
+                            <div class="actions" {% if is_filter!=true %}style="display:none;"{% endif %}><a class="clear_all" href="javascript:void(0)">Clear All</a></div>
                         <p class="block-subtitle">Shopping Options</p>
                         <dl id="narrow-by-list">
-                            <input type="hidden" name="filter_path" id="filter_path" value="{{ path('main_main_products_list', { 'category':app.request.get('category') }) }}">
+                            {% if is_search==true %}
+                                <input type="hidden" name="filter_path" id="filter_path" value="{{ path('main_main_search_list', { 'search': app.request.get('search') }) }}">
+                                <dt>Category</dt>
+                                <dd>
+                                    <ol>
+                                        {% for category in categories_filter%}
+                                            <li><a class="filter_categories" href="javascript:void(0)" rel="{{ category['id'] }}">{{ category['label'] }}</a></li>
+                                        {% endfor %}
+                                    </ol>
+                                </dd>
+                            {% else %}
+                                <input type="hidden" name="filter_path" id="filter_path" value="{{ path('main_main_products_list', { 'category':app.request.get('category') }) }}">
+                            {% endif %}
                             <dt>Price</dt>
                             <dd>
                                 <ol>
                                     {% for step in steps %}
-                                        {% if loop.last!=true or step['only_one']==true%}
+                                        {% if loop.last!=true or step['only_one']==true %}
                                             <li><a href="javascript:void(0)" class="filter_price"><span class="price"><span class="exact_val_min">{{ step['min'] }}</span> US$</span> - <span class="price"><span class="exact_val_max">{{ step['max'] }}</span> US$</span></a></li>
                                         {% else %}
                                             <li><a href="javascript:void(0)" class="filter_price"><span class="price"><span class="exact_val_min">{{ step['min'] }}</span>US$</span> <span class="exact_val_max"></span>and above</a></li>

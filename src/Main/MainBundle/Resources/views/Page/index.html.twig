@@ -22,7 +22,7 @@
 		                                </a>
 		                                <div class="product-description">
 		                                    <p><a href="#">{{ prod.title }}</a></p>
-		                                    <p>See all <a href="#">{{ prod.category.label }}</a></p>
+		                                    <p>See all <a href="{{ path('main_main_products',{ 'category': prod.category.id}) }}">{{ prod.category.label }}</a></p>
 		                                </div>
 		                            </td>
 		                            {% if class=='even' %}
@@ -37,7 +37,7 @@
 		                                </a>
 		                                <div class="product-description">
 		                                    <p><a href="#">{{ prod.title }}</a></p>
-		                                    <p>See all <a href="#">{{ prod.category.label }}</a></p>
+		                                    <p>See all <a href="{{ path('main_main_products',{ 'category': prod.category.id}) }}">{{ prod.category.label }}</a></p>
 		                                </div>
 		                            </td>
 		                        </tr>

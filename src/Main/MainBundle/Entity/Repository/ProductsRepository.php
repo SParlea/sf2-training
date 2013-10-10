@@ -36,16 +36,24 @@ class ProductsRepository extends EntityRepository
 		}
 		if(is_null($filter)===false)
 		{
-			$prices = explode(',', $filter['price']);
-			if($prices[1]!='NaN')
+			if(isset($filter['price']))
 			{
-				$qb->andWhere($qb->expr()->between('p.price',':min_val', ':max_val'))
-					->setParameter('min_val',$prices[0])
-					->setParameter('max_val',$prices[1]);
-			}else
+				$prices = explode(',', $filter['price']);
+				if($prices[1]!='NaN')
+				{
+					$qb->andWhere($qb->expr()->between('p.price',':min_val', ':max_val'))
+						->setParameter('min_val',$prices[0])
+						->setParameter('max_val',$prices[1]);
+				}else
+				{
+					$qb->andWhere('p.price >= :min_val')
+						->setParameter('min_val',$prices[0]);
+				}
+			}
+			if(isset($filter['search']))
 			{
-				$qb->andWhere('p.price >= :min_val')
-					->setParameter('min_val',$prices[0]);
+				$qb->andWhere('p.title LIKE :search')
+					->setParameter('search','%'.$filter['search'].'%');
 			}
 		}
 		if(is_null($page)===false)
@@ -56,6 +64,7 @@ class ProductsRepository extends EntityRepository
 		{
 			$qb->setMaxResults($limit);
 		}
+		$qb->andWhere('p.active = 1');
 		return $qb->getQuery()
                   ->getResult();
 	}
@@ -71,18 +80,27 @@ class ProductsRepository extends EntityRepository
 		}
 		if(is_null($filter)===false)
 		{
-			$prices = explode(',', $filter['price']);
-			if($prices[1]!='NaN')
+			if(isset($filter['price']))
 			{
-				$qb->andWhere($qb->expr()->between('p.price',':min_val', ':max_val'))
-					->setParameter('min_val',$prices[0])
-					->setParameter('max_val',$prices[1]);
-			}else
+				$prices = explode(',', $filter['price']);
+				if($prices[1]!='NaN')
+				{
+					$qb->andWhere($qb->expr()->between('p.price',':min_val', ':max_val'))
+						->setParameter('min_val',$prices[0])
+						->setParameter('max_val',$prices[1]);
+				}else
+				{
+					$qb->andWhere('p.price >= :min_val')
+						->setParameter('min_val',$prices[0]);
+				}
+			}
+			if(isset($filter['search']))
 			{
-				$qb->andWhere('p.price >= :min_val')
-					->setParameter('min_val',$prices[0]);
+				$qb->andWhere('p.title LIKE :search')
+					->setParameter('search','%'.$filter['search'].'%');
 			}
 		}
+		$qb->andWhere('p.active = 1');
 		return $qb->getQuery()
                   ->getResult();
 	}

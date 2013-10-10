@@ -12,3 +12,9 @@ main_main_products:
 main_main_products_list:
     pattern:  /products_list/{category}/{page}
     defaults: { _controller: MainMainBundle:Products:list, category: 1, page:1 }
+main_main_search:
+    pattern:  /search/{page}
+    defaults: { _controller: MainMainBundle:Products:search, page: 1 }
+main_main_search_list:
+    pattern:  /search_list/{page}
+    defaults: { _controller: MainMainBundle:Products:searchList, page: 1 }

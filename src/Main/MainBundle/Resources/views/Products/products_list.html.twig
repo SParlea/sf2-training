@@ -12,14 +12,24 @@
                     {% if app.request.get('page')==key %}
                         <li class="current">{{ key }}</li>
                     {% else %}
-                        <li><a class="page_link" href="{{ path('main_main_products_list', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                        {% if is_search==true %}
+                            <li><a class="page_link" href="{{ path('main_main_search_list', { 'page':key, 'search': app.request.get('search') }) }}">{{ key }}</a></li>
+                        {% else %}
+                            <li><a class="page_link" href="{{ path('main_main_products_list', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% if app.request.get('page')!=(count / 9)|ceil and count!=0 %}
                 <li>
-                    <a class="next i-next page_link" href="{{ path('main_main_products_list', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                    {% if is_search==true %}
+                        <a class="next i-next page_link" href="{{ path('main_main_search_list', { 'page':app.request.get('page')+1, 'search': app.request.get('search') }) }}" title="Next">
                         <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
                     </a>
+                    {% else %}
+                        <a class="next i-next page_link" href="{{ path('main_main_products_list', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                            <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
+                        </a>
+                    {% endif %}
                 </li>
                 {% endif %}
             </ol>
@@ -27,7 +37,11 @@
     </div>
     <div class="sorter">
         <div class="sort-by">
-            <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category': app.request.get('category') }) }}" class="sort_form">
+            {% if is_search==true %}
+                <form action="{{ path('main_main_search_list', { 'page':app.request.get('page'), 'search': app.request.get('search') }) }}" class="sort_form">
+            {% else %}
+                <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category': app.request.get('category') }) }}" class="sort_form">
+            {% endif %}
                 <label>Sort By</label>
                 <select name="sort_by" class="sort_by">
                     <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>
@@ -113,7 +127,7 @@
     {% endif %}
 </ul>
 {% else %}
-<div>No product in this search criteria</div>
+    <div>No products</div>
 {% endfor %}
  <div class="toolbar-bottom">
     <div class="toolbar">
@@ -129,14 +143,24 @@
                     {% if app.request.get('page')==key %}
                         <li class="current">{{ key }}</li>
                     {% else %}
-                        <li><a class="page_link" href="{{ path('main_main_products_list', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                        {% if is_search==true %}
+                            <li><a class="page_link" href="{{ path('main_main_search_list', { 'page':key, 'search': app.request.get('search') }) }}">{{ key }}</a></li>
+                        {% else %}
+                            <li><a class="page_link" href="{{ path('main_main_products_list', { 'page':key, 'category': app.request.get('category') }) }}">{{ key }}</a></li>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% if app.request.get('page')!=(count / 9)|ceil and count!=0 %}
                 <li>
-                    <a class="next i-next page_link" href="{{ path('main_main_products_list', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                    {% if is_search==true %}
+                        <a class="next i-next page_link" href="{{ path('main_main_search_list', { 'page':app.request.get('page')+1, 'search': app.request.get('search') }) }}" title="Next">
                         <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
                     </a>
+                    {% else %}
+                        <a class="next i-next page_link" href="{{ path('main_main_products_list', { 'page':app.request.get('page')+1, 'category': app.request.get('category') }) }}" title="Next">
+                            <img src="{{ asset('images/pager_arrow_right.gif') }}" alt="Next" class="v-middle" />
+                        </a>
+                    {% endif %}
                 </li>
                 {% endif %}
                 </ol>
@@ -145,7 +169,11 @@
 
         <div class="sorter">
             <div class="sort-by">
-                <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category':app.request.get('category') }) }}" class="sort_form">
+                {% if is_search==true %}
+                    <form action="{{ path('main_main_search_list', { 'page':app.request.get('page'), 'search': app.request.get('search') }) }}" class="sort_form">
+                {% else %}
+                    <form action="{{ path('main_main_products_list', { 'page':app.request.get('page'), 'category': app.request.get('category') }) }}" class="sort_form">
+                {% endif %}
                     <label>Sort By</label>
                     <select name="sort_by" class="sort_by">
                         <option value="title" {% if app.session.get('filters').sort_by == 'title' %}selected="selected"{% endif %}>Name</option>

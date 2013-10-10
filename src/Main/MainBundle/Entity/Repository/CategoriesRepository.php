@@ -20,4 +20,13 @@ class CategoriesRepository extends EntityRepository
 		return $qb->getQuery()
                   ->getResult();
 	}
+	public function getCategoryName($category_id)
+	{
+		$qb = $this->createQueryBuilder('c')
+				   ->select('c.label')
+				   ->where('c.id = :category_id')
+				   ->setParameter('category_id',$category_id);
+		return $qb->getQuery()
+                  ->getSingleResult();
+	}
 }

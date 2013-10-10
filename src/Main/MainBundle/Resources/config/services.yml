@@ -1,12 +1,13 @@
 parameters:
-#    main_main.example.class: Main\MainBundle\Example
+    main_main.products.class: Main\MainBundle\Service\ProductsService
 
 services:
-#    main_main.example:
-#        class: %main_main.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-services:
-    main_main.twig.extension:
+   main_main.products:
+       class: %main_main.products.class%
+       arguments: [@request, %main_main.filter.percent_step%]
+       public: true
+       scope: request
+   main_main.twig.extension:
         class: Main\MainBundle\Twig\Extensions\MainMainBundleExtension
         tags:
             - { name: twig.extension }
