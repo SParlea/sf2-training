@@ -44,18 +44,18 @@ class Products
     protected $isbn;
 
     /**
-	 * @ORM\Column(type="integer", length=11)
+	 * @ORM\Column(name="appereance_year", type="integer", length=11)
     */
-    protected $appereance_year;
+    protected $appereanceYear;
 
     /**
 	 * @ORM\Column(type="text")
     */
     protected $description;
     /**
-	 * @ORM\Column(type="string", length=255)
+	 * @ORM\Column(name="short_desc", type="string", length=255)
     */
-    protected $short_desc;
+    protected $shortDesc;
     /**
 	 * @ORM\Column(type="integer", length=11, nullable=false, options={"default" = 0})
     */
@@ -64,6 +64,10 @@ class Products
 	 * @ORM\Column(type="boolean", nullable=false, options={"default" = 1})
     */
     protected $active;
+    /**
+     * @ORM\OneToMany(targetEntity="Images", mappedBy="products")
+     */
+    protected $images;
 
     /**
      * Get id
@@ -152,7 +156,7 @@ class Products
      */
     public function setAppereanceYear($appereanceYear)
     {
-        $this->appereance_year = $appereanceYear;
+        $this->appereanceYear = $appereanceYear;
     
         return $this;
     }
@@ -164,7 +168,7 @@ class Products
      */
     public function getAppereanceYear()
     {
-        return $this->appereance_year;
+        return $this->appereanceYear;
     }
 
     /**
@@ -198,7 +202,7 @@ class Products
      */
     public function setShortDesc($shortDesc)
     {
-        $this->short_desc = $shortDesc;
+        $this->shortDesc = $shortDesc;
     
         return $this;
     }
@@ -210,7 +214,7 @@ class Products
      */
     public function getShortDesc()
     {
-        return $this->short_desc;
+        return $this->shortDesc;
     }
 
     /**
@@ -303,5 +307,45 @@ class Products
     public function getAuthor()
     {
         return $this->author;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add images
+     *
+     * @param \Main\MainBundle\Entity\Images $images
+     * @return Products
+     */
+    public function addImage(\Main\MainBundle\Entity\Images $images)
+    {
+        $this->images[] = $images;
+    
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \Main\MainBundle\Entity\Images $images
+     */
+    public function removeImage(\Main\MainBundle\Entity\Images $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

@@ -27,4 +27,11 @@ $(function(){
 			$('.list_wrapper').html(o);
 		},'html');
 	});
+	$('.page_link').on('click',function(event){
+		event.preventDefault();
+		var url = $(this).attr('href');
+		$.post(url,'',function(o){
+			$('.list_wrapper').html(o);
+		},'html');
+	});
 });

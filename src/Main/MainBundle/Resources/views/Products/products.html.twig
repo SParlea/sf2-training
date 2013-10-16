@@ -49,7 +49,12 @@
                             <p class="block-subtitle">Currently Shopping by:</p>
                             <ol class="filter_list">
                                 {% if is_filter==true %}
-                                    <li class="price"><span class="label">Price:</span> <span class="value">{{ range_value }}</span></li>
+                                    {% if range_value!='' %}
+                                        <li class="price"><span class="label">Price:</span> <span class="value">{{ range_value }}</span></li>
+                                    {% endif %}
+                                    {% if category_name!='' and is_search==true %}
+                                        <li class="category"><span class="label">Category:</span> <span class="value">{{ category_name }}</span></li>
+                                    {% endif %}
                                 {% endif %}
                             </ol>
                         </div>
@@ -94,7 +99,7 @@
             </div>
         </div>
         <!-- change to render here when controller ready -->
-         {% include 'MainMainBundle::rightsidebar.html.twig' %}
+        {% include 'MainMainBundle::rightsidebar.html.twig' %}
     </div>
 </div>
 {% endblock %}

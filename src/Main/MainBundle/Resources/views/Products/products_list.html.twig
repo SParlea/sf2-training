@@ -65,8 +65,8 @@
 {% for key in range(0,max_range,3) if prods|length!=0 %}
 <ul class="products-grid">
     <li class="item first">
-        <a href="product_detail.html" title="Nusantara Demo" class="product-image"><img src="{{ asset('images/nusantara.gif') }}" width="135" height="135" alt="Nusantara Demo" /></a>
-        <h2 class="product-name"><a href="product_detail.html" title="Nusantara Demo">{{ prods[key].title }}</a></h2>
+        <a href="{{ path('main_main_product_detail',{ 'product_id': prods[key].id }) }}" title="Nusantara Demo" class="product-image"><img src="{{ asset('images/nusantara.gif') }}" width="135" height="135" alt="Nusantara Demo" /></a>
+        <h2 class="product-name"><a href="{{ path('main_main_product_detail',{ 'product_id': prods[key].id }) }}" title="Nusantara Demo">{{ prods[key].title }}</a></h2>
         <div class="price-box">
             <span class="regular-price" id="product-price-168">
                 <span class="price">{{ prods[key].price|number_format(2) }} US$</span>
@@ -81,12 +81,12 @@
     </li>
     {% if key+1<= prods|length-1 %}
     <li class="item">
-        <a href="product_detail.html" title=" Shaimus - Turn The Other Way" class="product-image">
+        <a href="{{ path('main_main_product_detail',{ 'product_id': prods[key+1].id }) }}" title=" Shaimus - Turn The Other Way" class="product-image">
             <img src="{{ asset('images/cover.jpg') }}" width="135" height="135" alt=" Shaimus - Turn The Other Way" />
         </a>
 
         <h2 class="product-name">
-            <a href="product_detail.html" title=" Shaimus - Turn The Other Way"> {{ prods[key+1].title }}</a>
+            <a href="{{ path('main_main_product_detail',{ 'product_id': prods[key+1].id }) }}" title=" Shaimus - Turn The Other Way"> {{ prods[key+1].title }}</a>
         </h2>
 
         <div class="price-box">
@@ -104,12 +104,12 @@
     {% endif %}
     {% if key+2 <= prods|length-1 %}
     <li class="item">
-        <a href="product_detail.html" title=" Shaimus - Turn The Other Way" class="product-image">
+        <a href="{{ path('main_main_product_detail',{ 'product_id': prods[key+2].id }) }}" title=" Shaimus - Turn The Other Way" class="product-image">
             <img src="{{ asset('images/cover.jpg') }}" width="135" height="135" alt=" Shaimus - Turn The Other Way" />
         </a>
 
         <h2 class="product-name">
-            <a href="product_detail.html" title=" Shaimus - Turn The Other Way">{{ prods[key+2].title }}</a>
+            <a href="{{ path('main_main_product_detail',{ 'product_id': prods[key+2].id }) }}" title=" Shaimus - Turn The Other Way">{{ prods[key+2].title }}</a>
         </h2>
 
         <div class="price-box">

@@ -68,7 +68,7 @@ class ProductsRepository extends EntityRepository
 		return $qb->getQuery()
                   ->getResult();
 	}
-	public function getNrofProds($category=null, $filter=null)
+	public function getNrofProds($category=null, $filter=null, $product_id=null)
 	{
 		$qb = $this->createQueryBuilder('p')
 				   ->select('p')
@@ -77,6 +77,11 @@ class ProductsRepository extends EntityRepository
 		{
 			$qb->Where('p.category = :category_id')
 				->setParameter('category_id', $category);
+		}
+		if(is_null($product_id)===false)
+		{
+			$qb->andWhere('p.id != :product_id')
+				->setParameter('product_id', $product_id);
 		}
 		if(is_null($filter)===false)
 		{
@@ -103,5 +108,16 @@ class ProductsRepository extends EntityRepository
 		$qb->andWhere('p.active = 1');
 		return $qb->getQuery()
                   ->getResult();
-	}
+	}/*
+	public function getRelatedProducts($category)
+	{
+		$qb = $this->createQueryBuilder('p')
+				   ->select('p')
+				   ->where('p.category=:category_id')
+				   ->OrderBy('rand')
+				   ->setMaxResults('4')
+				   ->setParameter('category_id',$category);
+		return $qb->getQuery()
+                  ->getResult();
+	}*/
 }

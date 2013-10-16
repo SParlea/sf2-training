@@ -1,5 +1,7 @@
 parameters:
     main_main.products.class: Main\MainBundle\Service\ProductsService
+    main_main.users.class: Main\MainBundle\Service\UsersService
+    main_main.users_provider.class: Main\MainBundle\Service\UsersProvider
 
 services:
    main_main.products:
@@ -7,6 +9,14 @@ services:
        arguments: [@request, %main_main.filter.percent_step%]
        public: true
        scope: request
+   main_main.users:
+       class: %main_main.users.class%
+       arguments: [@request, @service_container]
+       public: true
+       scope: request
+   main_main.user_provider:
+        class: "%main_main.users_provider.class%"
+        arguments: [@doctrine]
    main_main.twig.extension:
         class: Main\MainBundle\Twig\Extensions\MainMainBundleExtension
         tags:

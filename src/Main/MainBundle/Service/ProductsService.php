@@ -95,6 +95,12 @@ class ProductsService
             {
                 $session->remove('price_filter');
                 $session->remove('category_filter');
+                $session->remove('category_name');
+            }
+            if($request->get('category_id'))
+            {
+            	$session->set('category_filter',$request->get('category_id'));
+            	$session->set('category_name',$request->get('category_name'));
             }
         }
         $filters = $session->get('filters');
@@ -106,7 +112,7 @@ class ProductsService
             $filter = $session->get('price_filter');
         }
 		$filter['search'] = $request->get('search');
-        $values = array('sort'=>$sort_by, 'direction'=> $direction, 'filter'=>$filter);
+        $values = array('sort'=>$sort_by, 'direction'=> $direction, 'filter'=>$filter, 'category_filter'=>$session->get('category_filter'));
 
         return $values;
 	}
@@ -120,6 +126,7 @@ class ProductsService
         {
             $session->remove('price_filter');
             $session->remove('category_filter');
+            $session->remove('category_name');
         }
         if($session->get('price_filter'))
         {
@@ -138,13 +145,17 @@ class ProductsService
             $is_filter = false;
             $range_value = '';
         }
+        if($session->get('category_filter'))
+        {
+        	$is_filter=true;
+        }
         $session->set('last_category',$category);
         if(!$session->get('filters'))
         {
             $session->set('filters',array('sort_by'=>'title','direction'=>'ASC'));
         }
 
-        $values = array('is_filter'=>$is_filter, 'range_value'=>$range_value, 'filter'=>$filter);
+        $values = array('is_filter'=>$is_filter, 'range_value'=>$range_value, 'filter'=>$filter, 'category_name'=>$session->get('category_name'));
 
         return $values;
 	}
@@ -163,5 +174,10 @@ class ProductsService
 			}
 		}
 		return $categories;
+	}
+	public function getRelatedProducts($products)
+	{
+		shuffle($products);
+		return array_slice($products, 0, 4);
 	}
 }

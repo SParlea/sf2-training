@@ -1,0 +1,149 @@
+{% extends 'MainMainBundle::layout.html.twig' %}
+{% form_theme form _self %}
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+        <div class="validation-advice" id="advice-required-entry-email" style="">
+            {% for error in errors %}
+                {{ error.message }}<br />
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block body %}
+<div class="main-container col1-layout">
+    <div class="main">
+        <div class="col-main">
+            {% include 'MainMainBundle::success_msg.html.twig'%}
+            <div class="account-create">
+                <div class="page-title">
+                    <h1>Create an Account</h1>
+                </div>
+                <form action="{{ path('main_main_register') }}" method="post" {{ form_enctype(form) }} id="form-validate">
+                    <div class="fieldset">
+                        <input type="hidden" name="success_url" value="" />
+                        <input type="hidden" name="error_url" value="" />
+                        <h2 class="legend">Personal Information</h2>
+                        <ul class="form-list">
+                            <li class="fields">
+                                <div class="customer-name">
+                                    <div class="field name-firstname">
+                                        {{ form_label(form.firstname,null,{'label_attr': {'class': 'required'}}) }}<em>*</em>
+                                        <div class="input-box">
+                                                {{ form_widget(form.firstname, {'attr': {'class': 'input-text required-entry', 'id': 'firstname', 'title':'First name'}}) }}
+                                            {{ form_errors(form.firstname) }}
+                                        </div>
+                                    </div>
+                                    <div class="field name-lastname">
+                                        {{ form_label(form.lastname,null,{'label_attr': {'class': 'required'}}) }}<em>*</em>
+                                        <div class="input-box">
+                                            {{ form_widget(form.lastname, {'attr': {'class': 'input-text required-entry', 'id': 'lastname', 'title':'Last name'}}) }}
+                                            {{ form_errors(form.lastname) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="field">
+                                    {{ form_label(form.email,'Email address',{'label_attr': {'class': 'required'}}) }}<em>*</em>
+                                    <div class="input-box">
+                                        {{ form_widget(form.email, {'attr': {'class': 'input-text required-entry', 'id': 'email_address', 'title':'Email Address'}}) }}
+                                        {{ form_errors(form.email) }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    {{ form_label(form.mobile) }}
+                                    <div class="input-box">
+                                        {{ form_widget(form.mobile, {'attr': {'class': 'input-text', 'id': 'mobile', 'title':'Mobile'}}) }}
+                                        {{ form_errors(form.mobile) }}
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="field">
+                                    {{ form_label(form.gender) }}
+                                    <div class="input-box">
+                                        {{ form_widget(form.gender, {'attr': {'class': 'input-text', 'id': 'gender', 'title':'Gender'}}) }}
+                                        {{ form_errors(form.gender) }}
+                                    </div>
+                                </div>
+                                <!-- <div class="field">
+                                    <label for="education" class="required">Education</label>
+                                    <div class="input-box">
+                                        <select name="education" title="Education" id="education" class="select">
+                                            <option value="0"></option>
+                                            <option value="1">Under graduate</option>
+                                            <option value="2">Graduate</option>
+                                            <option value="3">University</option>
+                                            <option value="4">Post university</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="fieldset">
+                        <h2 class="legend">Login Information</h2>
+                        <ul class="form-list">
+                            <li>
+                                {{ form_label(form.username) }}<em>*</em>
+                                <div class="input-box">
+                                    {{ form_widget(form.username, {'attr': {'class': 'input-text required-entry', 'id': 'username', 'title':'Username'}}) }}
+                                    {{ form_errors(form.username) }}
+                                </div>
+                            </li>
+                            <li class="fields">
+                                <div class="field">
+                                    {{ form_label(form.password.password) }}<em>*</em>
+                                    <div class="input-box">
+                                        {{ form_widget(form.password.password, {'attr': {'class': 'input-text required-entry', 'id': 'password', 'title':'Password'}}) }}
+                                        {{ form_errors(form.password.password) }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    {{ form_label(form.password.confirmation) }}<em>*</em>
+                                    <div class="input-box">
+                                        {{ form_widget(form.password.confirmation, {'attr': {'class': 'input-text required-entry', 'id': 'confirmation', 'title':'Confirm Password'}}) }}
+                                        {{ form_errors(form.password.confirmation) }}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div id="window-overlay" class="window-overlay" style="display:none;"></div>
+                        <div id="remember-me-popup" class="remember-me-popup" style="display:none;">
+                            <div class="remember-me-popup-head">
+                                <h3>What's this?</h3>
+                                <a href="#" class="remember-me-popup-close" title="Close">Close</a>
+                            </div>
+                            <div class="remember-me-popup-body">
+                                <p>Checking &quot;Remember Me&quot; will let you access your shopping cart on this computer when you are logged out</p>
+                                <div class="remember-me-popup-close-button a-right">
+                                    <a href="#" class="remember-me-popup-close button" title="Close"><span>Close</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons-set">
+                        <p class="required">* Required Fields</p>
+                        <p class="back-link"><a href="{{ path('main_main_login') }}" class="back-link"><small>&laquo; </small>Back</a></p>
+                        <button type="submit" title="Submit" class="button"><span><span>Submit</span></span></button>
+                    </div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $.each($('.input-text'),function(){
+        if($(this).next().attr('class')=='validation-advice')
+        {
+            $(this).addClass('validation-failed');
+        }
+    })
+});
+</script>
+{% endblock %}

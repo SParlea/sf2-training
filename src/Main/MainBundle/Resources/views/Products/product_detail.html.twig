@@ -1,0 +1,104 @@
+{% extends 'MainMainBundle::layout.html.twig' %}
+
+{% block body %}
+<div class="main-container col2-right-layout">
+    <div class="main">
+	{% if product.id is defined %}
+        <div class="breadcrumbs">
+            <ul>
+                <li class="home">
+                    <a href="{{ path('main_main_homepage') }}" title="Go to Home Page">Home</a>
+                    <span>/ </span>
+                </li>
+                <li class="category10">
+                    <a href="{{ path('main_main_products',{ 'category': product.category.id }) }}" title="">{{ product.category.label }}</a>
+                    <span>/ </span>
+                </li>
+                <li class="product">
+                    <strong>{{ product.title }}</strong>
+                </li>
+            </ul>
+        </div>
+        <div class="col-main">
+			{% include 'MainMainBundle::success_msg.html.twig'%}
+            <div class="product-view">
+                <div class="product-essential">
+                    <form action="" method="post" id="product_addtocart_form">
+                        <div class="product-shop">
+                            <div class="product-name">
+                                <h1>{{ product.title }}</h1>
+                            </div>
+
+                            <div class="short-description">
+                                <h2>Quick Overview</h2>
+                                <div class="std">{{ product.shortDesc }}</div>
+                            </div>
+
+                            <p class="availability in-stock">Availability: <span>{% if product.stock>0 %}In stock{% else %}Out of stock{% endif %}</span></p>
+
+
+                            <div class="price-box">
+                                <span class="regular-price" id="product-price-MyProductID">
+                                    <span class="price">{{ product.price }} US$</span>
+                                </span>
+                            </div>
+                            <div class="add-to-box">
+                                <div class="add-to-cart">
+                                	{% if product.stock>0 %}
+	                                    <label for="qty">Qty:</label>
+	                                    <input type="text" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" />
+	                                    <button type="button" title="Add to Cart" class="button btn-cart" ><span><span>Add to Cart</span></span></button>
+                                   	{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-img-box">
+                            <p class="product-image product-image-zoom">
+                                <img id="image" src="{{ asset('images/nusantara.gif') }}" alt="{{ product.title }}" title="{{ product.title }}" />
+                            </p>
+                        </div>
+
+                        <div class="clearer"></div>
+                    </form>
+                </div>
+
+                <div class="product-collateral">
+                    <div class="box-collateral box-description">
+                        <h2>Details</h2>
+                        <div class="std">
+                            {{ product.description }}
+                        </div>
+                    </div>
+                    <p><a href="{{ path('main_main_products',{ 'category': product.category.id }) }}"><span>&laquo; Back to list</span></a></p>
+                    <div class="box-collateral box-up-sell">
+                        <h2>You may also be interested in the following product(s)</h2>
+                        <table class="products-grid" id="upsell-product-table">
+                            <tr>
+                            	{% for related_product in related_products %}
+                                <td>
+                                    <a href="{{ path('main_main_product_detail',{ 'product_id': related_product.id }) }}" title="{{ related_product.title }}" class="product-image"><img src="{{ asset('images/cover.jpg') }}" width="125" height="125" alt="{{ related_product.title }}" /></a>
+                                    <h3 class="product-name"><a href="{{ path('main_main_product_detail',{ 'product_id': related_product.id }) }}" title="{{ related_product.title }}">{{ related_product.title }}</a></h3>
+                                    <div class="price-box">
+                                        <p class="minimal-price">
+                                            <span class="price-label">Starting at:</span>
+                                            <span class="price" id="product-minimal-price-54-upsell">{{ related_product.price }} US$</span>
+                                        </p>
+                                    </div>
+                                </td>
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+		{% else %}
+			This product doesn't exist.
+		{% endif %}
+        <!-- change to render here when controller ready -->
+        {% include 'MainMainBundle::rightsidebar.html.twig' %}
+
+    </div>
+</div>
+{% endblock %}
